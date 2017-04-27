@@ -156,11 +156,9 @@ download \
   "40a7bfdcc66280b3c1402a0eb1a27624" \
   "https://github.com/uclouvain/openjpeg/archive/"
 
-download \
-  "n3.2.4.tar.gz" \
-  "ffmpeg3.2.4.tar.gz" \
-  "8ca58121dd042153656d89eba3daa7ab" \
-  "https://github.com/FFmpeg/FFmpeg/archive"
+if [ ! -d "$BUILD_DIR/FFserver" ]; then
+  git clone https://github.com/Zalewa/FFserver "$BUILD_DIR/FFserver"
+fi
 
 [ $download_only -eq 1 ] && exit 0
 
@@ -282,8 +280,8 @@ make -j $jval
 make install
 
 # FFMpeg
-echo "*** Building FFmpeg ***"
-cd $BUILD_DIR/FFmpeg*
+echo "*** Building FFserver ***"
+cd $BUILD_DIR/FFserver
 [ $rebuild -eq 1 -a -f Makefile ] && make distclean || true
 [ ! -f config.status ] && PATH="$BIN_DIR:$PATH" \
 PKG_CONFIG_PATH="$TARGET_DIR/lib/pkgconfig" ./configure \
