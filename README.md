@@ -41,8 +41,8 @@ NOTE: If you're going to use the h264 presets, make sure to copy them along the 
 Build in docker
 ---------------
 
-    $ docker build -t ffmpeg-static .
-    $ docker run -it ffmpeg-static
+    $ docker build -t ffserver-static .
+    $ docker run -it ffserver-static
     $ ./build.sh [-j <jobs>] [-B] [-d]
 
 The binaries will be created in `/ffmpeg-static/bin` directory.
