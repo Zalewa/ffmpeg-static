@@ -217,6 +217,23 @@ download \
   "4749a5e56f31e7ccebd3f9924972220f" \
   "https://github.com/FFmpeg/FFmpeg/archive"
 
+
+
+# NVIDIA
+
+#download \
+#  "nvidia_video_sdk_6.0.1.zip" \
+#  "" \
+#  "24af45272ed2881f88ed534d3211b584" \
+#  "http://developer.download.nvidia.com/assets/cuda/files/"
+
+download \
+  "nvenc_5.0.1_sdk.zip" \
+  "" \
+  "c26e5d92ab06bac85c03fb4f8595f36b" \
+  "http://developer.download.nvidia.com/compute/nvenc/v5.0/"
+
+
 [ $download_only -eq 1 ] && exit 0
 
 TARGET_DIR_SED=$(echo $TARGET_DIR | awk '{gsub(/\//, "\\/"); print}')
@@ -411,6 +428,10 @@ cd $BUILD_DIR/speex*
 make -j $jval
 make install
 
+echo '*** "Building" NVidia NVENC ***'
+cd $BUILD_DIR/nvenc*
+cp Samples/common/inc/*.h $TARGET_DIR/include
+
 # FFMpeg
 echo "*** Building FFmpeg ***"
 cd $BUILD_DIR/FFmpeg*
@@ -455,7 +476,8 @@ if [ "$platform" = "linux" ]; then
     --enable-libxvid \
     --enable-libzimg \
     --enable-nonfree \
-    --enable-openssl
+    --enable-openssl \
+    --enable-nvenc
 elif [ "$platform" = "darwin" ]; then
   [ ! -f config.status ] && PATH="$BIN_DIR:$PATH" \
   PKG_CONFIG_PATH="${TARGET_DIR}/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/local/share/pkgconfig:/usr/local/Cellar/openssl/1.0.2o_1/lib/pkgconfig" ./configure \
