@@ -37,6 +37,7 @@ RUN apt-get update && apt-get install -y \
   libxcb-xfixes0-dev \
   libxvidcore-dev \
   lsb-release \
+  nvidia-cuda-dev \
   pkg-config \
   sudo \
   tar \

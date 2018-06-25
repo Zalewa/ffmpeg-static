@@ -211,14 +211,6 @@ download \
   "4bec86331abef56129f9d1c994823f03" \
   "https://github.com/xiph/speex/archive/"
 
-download \
-  "n4.0.tar.gz" \
-  "ffmpeg4.0.tar.gz" \
-  "4749a5e56f31e7ccebd3f9924972220f" \
-  "https://github.com/FFmpeg/FFmpeg/archive"
-
-
-
 # NVIDIA
 
 #download \
@@ -228,10 +220,28 @@ download \
 #  "http://developer.download.nvidia.com/assets/cuda/files/"
 
 download \
+  "cudautils.zip" \
+  "" \
+  "f3f890bd314a568c47191810453cad2c" \
+  "http://developer.download.nvidia.com/compute/redist/ffmpeg/1511-patch/"
+
+download \
   "nvenc_5.0.1_sdk.zip" \
   "" \
   "c26e5d92ab06bac85c03fb4f8595f36b" \
   "http://developer.download.nvidia.com/compute/nvenc/v5.0/"
+
+download \
+  "nv-codec-headers-8.1.24.2.tar.gz" \
+  "" \
+  "db1ddfaebc6198241a49cdd86d1911d9" \
+  "https://github.com/FFmpeg/nv-codec-headers/releases/download/n8.1.24.2/"
+
+download \
+  "n4.0.tar.gz" \
+  "ffmpeg4.0.tar.gz" \
+  "4749a5e56f31e7ccebd3f9924972220f" \
+  "https://github.com/FFmpeg/FFmpeg/archive"
 
 
 [ $download_only -eq 1 ] && exit 0
@@ -428,9 +438,18 @@ cd $BUILD_DIR/speex*
 make -j $jval
 make install
 
-echo '*** "Building" NVidia NVENC ***'
+echo '*** Building NVidia NVENC ***'
+cd $BUILD_DIR/cudautils
+make
+cp libcudautils.a $TARGET_DIR/lib
 cd $BUILD_DIR/nvenc*
 cp Samples/common/inc/*.h $TARGET_DIR/include
+
+echo '*** "Building" nv-codec-headers ***'
+cd $BUILD_DIR/nv-codec-headers*
+# There's no configure.
+sed -i "s/PREFIX\s*=.*/PREFIX=${TARGET_DIR_SED}/" ./Makefile
+make install
 
 # FFMpeg
 echo "*** Building FFmpeg ***"
