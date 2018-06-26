@@ -115,7 +115,7 @@ download \
   "https://github.com/madler/zlib/archive/"
 
 download \
-  "last_x264.tar.bz2" \
+  "x264-snapshot-20160423-2245.tar.bz2" \
   "" \
   "nil" \
   "http://download.videolan.org/pub/videolan/x264/snapshots/"
@@ -230,9 +230,9 @@ download \
   "https://github.com/FFmpeg/nv-codec-headers/releases/download/n8.1.24.2/"
 
 download \
-  "n4.0.tar.gz" \
-  "ffmpeg4.0.tar.gz" \
-  "4749a5e56f31e7ccebd3f9924972220f" \
+  "n3.2.4.tar.gz" \
+  "ffmpeg3.2.4.tar.gz" \
+  "8ca58121dd042153656d89eba3daa7ab" \
   "https://github.com/FFmpeg/FFmpeg/archive"
 
 [ $download_only -eq 1 ] && exit 0
