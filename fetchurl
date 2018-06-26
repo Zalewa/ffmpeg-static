@@ -96,8 +96,6 @@ if [ "$UNPACK" -ne 0 ]; then
     extname=.tar.bz2
   elif [ "$filename" != "${filename%.tar.xz}" ]; then
     extname=.tar.xz
-  elif [ "$filename" != "${filename%.zip}" ]; then
-    extname=.zip
   else
     stderr extension of $filename is not supported
     exit 1
@@ -107,13 +105,7 @@ if [ "$UNPACK" -ne 0 ]; then
   mkdir -p "$target_dir"
   sh cd "$target_dir"
 
-  if [ "$REPLACE" -ne 1 -a `uname` = "Linux" ]; then
-    tarargs="--skip-old-files"
-    zipargs="-n"
-  else
-    tarargs=""
-    zipargs=""
-  fi
+  [ "$REPLACE" -ne 1 ] && [ `uname` = "Linux" ] && tarargs="--skip-old-files" || tarargs=""
   case "$extname" in
     .tar.gz|.tgz)
       sh tar "$tarargs" -xzvf "$cache_file"
@@ -123,9 +115,6 @@ if [ "$UNPACK" -ne 0 ]; then
     ;;
     .tar.xz)
       sh tar "$tarargs" -xJvf "$cache_file"
-    ;;
-    .zip)
-      sh unzip "$zipargs" "$cache_file"
     ;;
     *)
       stderr BUG, this should not happen
