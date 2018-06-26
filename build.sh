@@ -3,6 +3,18 @@
 set -e
 set -u
 
+echo "!!! WARNING !!!"
+echo "This will be a dynamic build."
+echo "Do you wish to continue? [Y/n]"
+echo "!!! WARNING !!!"
+
+run=0
+read -r confirm
+if [ -z "$confirm" -o "$confirm" = 'Y' -o "$confirm" = 'y' -o "$confirm" = ' ' ]; then
+	run=1
+fi
+[ $run -ne 1 ] && exit 1
+
 jflag=
 jval=2
 rebuild=0
@@ -436,7 +448,6 @@ if [ "$platform" = "linux" ]; then
     --extra-cflags="-I$TARGET_DIR/include" \
     --extra-ldflags="-L$TARGET_DIR/lib" \
     --extra-libs="-lpthread -lm -lz" \
-    --extra-ldexeflags="-static" \
     --bindir="$BIN_DIR" \
     --enable-pic \
     --enable-ffplay \
